@@ -1,0 +1,139 @@
+.container{
+  background: var(--bg);
+  height: 100svh;
+  width:100vw;
+  overflow-y: scroll;
+  padding-top: 100px;
+}
+
+.msg-box{
+  width: 100%;
+  height: 80px;
+  background: #444;
+  
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+}
+.msg-box form{
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.msg-box input{
+  width: 90%;
+  height: 40px;
+  border: none;
+  outline: none;
+  padding: 0px 10px;
+  border-radius: 30px;
+}
+
+.msg-box button{
+  background: var(--primary-bg);
+  color:var(--primary-text);
+  border-radius: 30px;
+  width: 10%;
+  height: 40px;
+  outline: none;
+  border: none;
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+.my-msg-wrapper,
+.their-msg-wrapper{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100vw;
+  height: auto;
+}
+
+.their-msg-wrapper{
+  justify-content: start;
+}
+
+.my-msg,
+.their-msg{
+  display: block;
+  float: right;
+  height: auto;
+  margin: 10px 0;
+  margin-right: 5%;
+  max-width: 80%;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  padding: 15px 15px;
+  border-radius: 20px;
+  border-top-right-radius: 0px;
+  scale: 0.7;
+  opacity: 0;
+  animation: mypopup 0.4s forwards;
+  transition: 0.4s;
+}
+
+.their-msg{
+  float: left;
+  margin-left: 5%;
+  background: var(--secondary-bg);
+  color: var(--secondary-text);
+  border-radius: 20px;
+  border-top-left-radius: 0px;
+  animation:theirpopup 0.4s forwards;
+}
+
+@keyframes mypopup {
+  0%{
+    transform: translate(10%,-10%);
+    scale:0.7;
+  }
+  100%{
+    transform: translate(0%,0%);
+    scale:1;
+    opacity: 1;
+  }
+}
+
+@keyframes theirpopup {
+  0%{
+    transform: translate(-10%,-10%);
+    scale:0.7;
+  }
+  100%{
+    transform: translate(0%,0%);
+    scale:1;
+    opacity: 1;
+  }
+}
+
+.my-msg span{
+  font-size: 9px;
+  color: #aaa;
+  float: right;
+  margin-top: 5px;
+}
+
+.their-msg span{
+  font-size: 9px;
+  color: var(--primary-bg);
+  float: left;
+  margin-top: 5px;
+}
+.icon-tabler-checks{
+  color:cyan;
+}
+
+.msg-info,
+.msg-info2{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 5px;
+}
+
+.msg-info2{
+  justify-content: start;
+}

@@ -1,0 +1,89 @@
+.new-convo-container{
+  width: 100vw;
+  height: 100svh;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.new-convo-container h3{
+  text-align: center;
+  text-transform:uppercase;
+}
+
+.new-convo-container input{
+  width: 90%;
+  padding: 10px 15px;
+  padding-left: 10%;
+  border-radius:30px;
+  border:none;
+  outline: none;
+  font-size: 1.2rem;
+  margin: 16px 0;
+  box-shadow: 0 10px 10px rgba(0,0,0,0.2);
+}
+
+.new-convo-input-wrapper{
+  position: relative;
+  width:100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.new-convo-input-wrapper .at-icon{
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translate(-50%,-50%);
+  color:#e73827;
+}
+
+.new-convo-users-container{
+  width:90%;
+  background: #fff;
+  color:#e73827;
+  padding: 10px 10px;
+  border-radius:30px;
+}
+
+.new-convo-user{
+  display: flex;
+  align-items: center;
+  margin:10px 0;
+}
+
+.new-convo-user .user-image{
+  display: flex;
+  justify-content: center;
+  width: 20%;
+}
+
+.new-convo-user .user-image svg{
+  width:50%;
+  height:50%;
+}
+
+.new-convo-user .user-add-icon{
+  display: flex;
+  justify-content: center;
+  width:15%;
+}
+
+.new-convo-user .user-add-icon svg{
+  width:100%;
+}
+
+.new-convo-user .user-info{
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  padding: 0 20px;
+}
+
+.new-convo-user .user-info p{
+  font-size: 0.7rem;
+}

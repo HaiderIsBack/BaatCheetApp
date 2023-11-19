@@ -1,0 +1,14 @@
+.pnf-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height:90vh;
+  color:var(--primary-text);
+}
+
+.pnf-container img{
+  margin-bottom: 10px;
+  width: 70%;
+}

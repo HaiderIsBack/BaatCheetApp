@@ -1,0 +1,52 @@
+.nav-container{
+  display:flex;
+  align-items: center;
+  padding: 0 20px;
+  position: sticky;
+  top: 0%;
+  left:0%;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+  height: 70px;
+  width: 100vw;
+  z-index: 10;
+  box-shadow: 0 10px 10px rgba(0,0,0,0.6);
+}
+
+.nav-user-info{
+  width: 90%;
+  display: flex;
+  align-items: center;
+  
+}
+
+.nav-back-btn{
+  width:10%;
+  cursor: pointer;
+}
+
+.nav-user{
+  margin-left: 10px;
+}
+
+.nav-user-info img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.nav-user p{
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.nav-video-call{
+  width: 5%;
+  cursor: pointer;
+}
+
+.nav-call{
+  width: 5%;
+  cursor: pointer;
+}
