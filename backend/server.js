@@ -88,7 +88,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
  
 app.post('/api/v1/upload_image', upload.single('image'), (req, res, next) => {
-    console.log(req.file)
+    res.status(200).redirect("/profile")
 });
 
 // Server Starter
