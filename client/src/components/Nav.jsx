@@ -20,10 +20,10 @@ const Nav = ({ chatter }) => {
           <IconArrowLeft />
         </div>
         <div className="nav-user-info">
-          {chatter.img === undefined ? (
+          {chatter.image === undefined ? (
             <IconUserCircle width={50} height={50} />
           ) : (
-            <img src={chatter.img} alt={chatter.name} />
+            <img src={chatter.image} alt={chatter.name} />
           )}
           <div className="nav-user">
             <h6>{chatter.name}</h6>

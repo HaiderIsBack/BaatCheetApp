@@ -18,7 +18,6 @@ require("./db/connectdb")
 //Models
 const Messages = require("./models/Message")
 const Users = require("./models/User")
-const Images = require("./models/Image")
 
 //Routes
 const users = require("./routes/User")
@@ -26,9 +25,8 @@ const conversations = require("./routes/Conversation")
 const messages = require("./routes/Message")
 
 //Middlewares
-app.use(cors({
-  origin: "http://localhost:5173"
-}))
+app.use(express.static("public"))
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
@@ -78,7 +76,7 @@ app.use("/api/v1",messages)
 const multer = require("multer")
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/')
+        cb(null, 'public/uploads/')
     },
     filename: (req, file, cb) => {
         const ext = file.mimetype.split("/")[1]
@@ -86,8 +84,12 @@ var storage = multer.diskStorage({
     }
 });
 var upload = multer({ storage: storage });
- 
-app.post('/api/v1/upload_image', upload.single('image'), (req, res, next) => {
+
+app.post('/api/v1/upload_image', upload.single('image'), async (req, res, next) => {
+    console.log(req.body.userId)
+    await Users.updateOne({_id:req.body.userId},{
+      $set: {image: process.env.URL+"/uploads/"+req.file.filename}
+    })
     res.status(200).redirect("/profile")
 });
 

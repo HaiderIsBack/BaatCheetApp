@@ -29,7 +29,7 @@ const getConversation = async (req, res) => {
     const conversationUserData = Promise.all(conversations.map(async (conversation)=>{
       const recieverId = conversation.members.find((member) => member !== userId)
       const user = await Users.findById(recieverId)
-      return {user:{id:user._id,name:user.name,verified:user.verifiedUser,email:user.email,username:user.username},conversationId: conversation._id}
+      return {user:{id:user._id,name:user.name,verified:user.verifiedUser,email:user.email,username:user.username,image:user.image},conversationId: conversation._id}
     }))
     
     res.status(200).json(await conversationUserData)

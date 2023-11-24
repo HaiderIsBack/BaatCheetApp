@@ -28,7 +28,7 @@
 }
 
 .menu-heading{
-  margin: 5% 0;
+  margin: 20px 0;
   align-self: start;
   border-left:5px solid var(--primary-text);
   padding: 0 5%;
@@ -43,5 +43,5 @@
   color:var(--primary-text);
   background: transparent;
   padding:0 5%;
-  margin-bottom: 5%;
+  margin-bottom: 20px;
 }

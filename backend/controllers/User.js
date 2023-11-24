@@ -15,7 +15,6 @@ const getUser = async (req, res, next) => {
         res.status(400).json({msg:"User with this username does not exist"})
       }else{
         const validateUser = await bcryptjs.compare(password, user.password)
-        console.log(validateUser)
         if(!validateUser){
           res.status(400).json({msg:"User's password is incorrect"})
         }else{
@@ -35,6 +34,7 @@ const getUser = async (req, res, next) => {
               name: user.name,
               username: user.username,
               email: user.email,
+              verified: user.verifiedUser,
               image: user.image
             },token: user.token
           })
@@ -83,7 +83,7 @@ const getUsers = async (req, res) => {
     const allUsers = await Users.find()
     const users = Promise.all(allUsers.map(user => {
       if(user.username.includes(query)){
-        return {id:user._id,name:user.name,username:user.username,verified:user.verified};
+        return {id:user._id,name:user.name,username:user.username,verified:user.verified,image:user.image};
       }
     }).filter(user => user))
     res.status(200).json(await users)

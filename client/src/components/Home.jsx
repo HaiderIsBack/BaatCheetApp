@@ -53,7 +53,7 @@ const HomeNav = () => {
             <IconUserCircle size={100} />
             : <img src={user.image} />
           }
-          <h3>{user.name}</h3>
+          <h3>{user.verified === "true" ? <img src="/icons/verified.svg" style={{width:"20px",height:"20px",margin:"0 5px"}}/> : null}{user.name}</h3>
           <p>@{user.username}</p>
         </div>
         <div onClick={()=>navigate("/profile")} className="side-menu-item">
@@ -131,8 +131,8 @@ const Chatter = ({chatperson, key}) => {
       <>
         <div onClick={openChat} className="chatter-container">
           <div className="chatter-img">
-          {chatperson.user.img === undefined ? <IconUserCircle size={40}/>
-          : <img src={chatperson.user.img} alt={chatperson.user.name} />}
+          {chatperson.user.image === undefined ? <IconUserCircle size={40}/>
+          : <img src={chatperson.user.image} alt={chatperson.user.name} />}
           </div>
           <div className="chatter-info">
             <h6>{chatperson.user.verified === "true" ? <img src="/icons/verified.svg"/> : null}{chatperson.user.name}</h6>
