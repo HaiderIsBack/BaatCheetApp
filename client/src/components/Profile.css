@@ -25,6 +25,7 @@
   border-radius:50%;
   object-fit: cover;
   box-shadow: 0 10px 10px rgba(0,0,0,0.2);
+  cursor: pointer;
 }
 
 .menu-heading{
@@ -44,4 +45,18 @@
   background: transparent;
   padding:0 5%;
   margin-bottom: 20px;
+}
+
+.profile-manipulation-btns{
+  position: fixed;
+  bottom: 1%;
+  opacity: 1;
+  
+}
+
+@keyframes fadeUp {
+  100%{
+    opacity: 1;
+    top: 0%;
+  }
 }

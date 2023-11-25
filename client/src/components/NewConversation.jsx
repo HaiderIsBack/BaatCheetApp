@@ -42,7 +42,6 @@ const Users = ({users}) => {
   users = users.filter((user)=> user.id !== loggedInUser.userId)
   const navigate = useNavigate()
   const createConversation = async (user) => {
-    console.log(user)
     navigate("/chat",{state:{chatter:{user:user}}})
   }
   return (

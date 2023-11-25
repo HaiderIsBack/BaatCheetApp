@@ -86,11 +86,15 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 app.post('/api/v1/upload_image', upload.single('image'), async (req, res, next) => {
-    console.log(req.body.userId)
     await Users.updateOne({_id:req.body.userId},{
       $set: {image: process.env.URL+"/uploads/"+req.file.filename}
     })
-    res.status(200).redirect("/profile")
+    // KBs
+    if(req.file.size / 1024 > 2 * 1024){
+      return res.status(400).json({msg:"File is too large!"})
+    }
+    res.status(200).json({image:process.env.URL+"/uploads/"+req.file.filename})
+    
 });
 
 // Server Starter

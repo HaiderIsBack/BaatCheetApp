@@ -77,6 +77,7 @@ const createUser = async (req, res, next) => {
   }
 }
 
+//All Users
 const getUsers = async (req, res) => {
   try {
     const query = req.params.query
@@ -93,8 +94,14 @@ const getUsers = async (req, res) => {
   }
 }
 
+//Update User
+const updateUser = (req, res) => {
+  
+}
+
 module.exports = {
   getUser,
   getUsers,
-  createUser
+  createUser,
+  updateUser
 }
