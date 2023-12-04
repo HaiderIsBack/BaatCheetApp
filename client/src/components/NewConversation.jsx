@@ -12,7 +12,12 @@ const NewConversation = () => {
   const [users,setUsers] = useState([])
   useEffect(()=>{
     const fetchData = async () => {
-      const res = await fetch(`/api/v1/users/${query.trim().toLowerCase()}`)
+      const userToken = localStorage.getItem("user:token")
+      const res = await fetch(`/api/v1/users/${query.trim().toLowerCase()}`,{
+        headers: {
+          authorization: userToken
+        }
+      })
     if(res.status !== 200){
       console.log("Error")
     }else{

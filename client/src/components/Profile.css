@@ -1,6 +1,5 @@
 .menu-page-container{
   width:100vw;
-  height:100svh;
   background: var(--primary-bg);
   color:var(--primary-text);
   display: flex;
@@ -8,6 +7,10 @@
   align-items: center;
   padding: 0 10%;
   position: relative;
+}
+
+.menu-page-container h5{
+  line-height: baseline;
 }
 
 .menu-back-btn{
@@ -20,11 +23,12 @@
 }
 
 .menu-user-img{
-  width: 250px;
-  height: 250px;
+  margin-top: 20px;
+  width: 200px !important;
+  height: 200px !important;
+  aspect-ratio: 1 / 1;
   border-radius:50%;
   object-fit: cover;
-  box-shadow: 0 10px 10px rgba(0,0,0,0.2);
   cursor: pointer;
 }
 
@@ -38,25 +42,58 @@
 .menu-input{
   width:100%;
   height: 50px;
-  border-radius:30px;
+  border-radius:10px;
   border:3px solid var(--primary-text);
   outline:none;
-  color:var(--primary-text);
-  background: transparent;
+  color:#e73827;
+  background: var(--primary-text);
   padding:0 5%;
   margin-bottom: 20px;
 }
 
 .profile-manipulation-btns{
+  display: flex;
+  justify-content: center;
   position: fixed;
   bottom: 1%;
-  opacity: 1;
-  
+  opacity: 0;
+  animation: fadeUp 0.5s forwards ease-out;
+}
+
+.profile-save-btn,
+.profile-cancel-btn{
+  width:48%;
+  text-align: center;
+  border: none;
+  outline: none;
+  color: #fff;
+  padding: 20px 0;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+}
+
+.profile-cancel-btn{
+  background: crimson;
+}
+.profile-save-btn{
+  background: limegreen;
+}
+
+.profile-error-prompt{
+  background: crimson;
+  color:#fff;
+  padding: 20px 20px;
+  border-radius:10px;
+  margin:10px 10px;
+  display: flex;
+  align-items: center;
+}
+.profile-error-prompt h4{
+  margin-left: 10px;
 }
 
 @keyframes fadeUp {
   100%{
     opacity: 1;
-    top: 0%;
+    bottom: 0%;
   }
 }

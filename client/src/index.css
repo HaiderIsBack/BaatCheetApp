@@ -25,3 +25,13 @@
 body{
   background: #222;
 }
+
+.myLoading{
+  position: absolute;
+  width: 100vw;
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #222;
+}

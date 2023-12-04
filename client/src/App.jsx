@@ -1,5 +1,6 @@
 import "./App.css";
-import { IconSend, IconMicrophone, IconChecks } from "@tabler/icons-react";
+import { IconSend, IconMicrophone,IconCheck , IconChecks } from "@tabler/icons-react";
+import BarLoader from "react-spinners/BarLoader";
 
 import { useState, useEffect, useRef, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -38,6 +39,7 @@ const App = () => {
   const chatter = location.state.chatter;
 
   const [messages, setMessages] = useState([]);
+  const [loading,setLoading] = useState(false)
 
   const { loggedInUser, socket } = useContext(SocketContext);
 
@@ -56,22 +58,63 @@ const App = () => {
   }, [socket]);
 
   useEffect(() => {
+    const userToken = localStorage.getItem("user:token")
+    const user = JSON.parse(localStorage.getItem("user:details"))
     const fetchMessages = async () => {
-      const res = await fetch(`/api/v1/message/${chatter.conversationId}`);
-      if (res.status !== 200) {
-        navigate("/");
-      } else {
-        res.json().then((data) => {
-          setMessages(data);
-        });
+      setLoading(true);
+      if(chatter.conversationId === undefined){
+        fetch(`/api/v1/message?senderId=${user.userId}&receiverId=${chatter.user.id}`,{
+          headers: {
+            authorization: userToken
+          }
+        })
+        .then((res)=>{
+          setLoading(false)
+          if(!res.ok){
+            
+          }else{
+            return res.json()
+          }
+        })
+        .then((data)=>{
+          chatter.conversationId = data.conversationId
+          if(data.messages !== undefined){
+            setMessages(data.messages)
+          }else{
+            setMessages(data)
+          }
+        })
+        return;
       }
+      fetch(`/api/v1/message/${chatter.conversationId}`,{
+        headers: {
+          authorization: userToken
+        }
+      })
+      .then((res)=>{
+        setLoading(false)
+        if(!res.ok){
+          navigate("/")
+        }else{
+          return res.json()
+        }
+      })
+      .then((data)=>{
+        setMessages(data)
+      })
+      
     };
     fetchMessages();
   }, []);
 
   const generateMsg = async (data) => {
+    const userToken = localStorage.getItem("user:token")
+    var convoId = chatter.conversationId
+    if(convoId === undefined){
+      convoId = "new"
+    }
     const payload = {
-      conversationId: chatter.conversationId,
+      conversationId: convoId,
       senderId: loggedInUser.userId,
       receiverId: data.receiverId,
       message: data.msg,
@@ -86,13 +129,14 @@ const App = () => {
       // Adding headers to the request
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        authorization: userToken
       },
     });
   };
   return (
     <>
       <Nav chatter={chatter.user} />
-      <Messages msgs={messages} />
+      <Messages msgs={messages} loading={loading} />
       <MessageBox chatter={chatter.user} onSubmit={generateMsg} />
     </>
   );
@@ -109,6 +153,15 @@ const Messages = (props) => {
   return (
     <>
       <div className="container" ref={msgContRef}>
+              {props.loading ? <div className="myLoading">
+        <BarLoader
+        color={"#f85032"}
+        loading={props.loading}
+        size={40}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+        />
+        </div> : null }
         {props.msgs.map((msg, i) => {
           if (msg.user.id === user.userId) {
             return (
@@ -188,7 +241,7 @@ const MyMessage = ({ msg, time }) => {
         {msg}
         <br />
         <div className="msg-info">
-          <IconChecks />
+          <IconCheck />
           <span>{time}</span>
         </div>
       </p>

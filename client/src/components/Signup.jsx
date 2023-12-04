@@ -22,7 +22,7 @@ const Signup = () => {
   const nameRef = useRef(null)
   //Handles
   const handleUsername = (e) => {
-    setUName(e.target.value)
+    setUName(e.target.value.toLowerCase())
     unameRef.current.style.borderColor = "#2948DD"
     if(errType === "uname"){
       errorRef.current.innerText = ""

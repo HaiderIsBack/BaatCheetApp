@@ -96,7 +96,7 @@ const Login = () => {
           <h2>Login</h2>
           <form>
             <fieldset ref={unameRef}>
-              <legend>Username</legend>
+              <legend>Username or Email</legend>
               <input onChange={handleUsername} value={uname} type="text" />
             </fieldset>
             <fieldset ref={passcodeRef}>

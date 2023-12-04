@@ -5,7 +5,7 @@ const Users = require("../models/User")
 const createMessage = async (req, res) => {
   try{
     const {conversationId, senderId,receiverId, message, time} = req.body
-    if(!conversationId){
+    if(conversationId == "new" && receiverId){
       const newConversation = new Conversations({ members:[senderId,receiverId]})
       await newConversation.save()
       const newMessage = new Messages({
@@ -34,6 +34,24 @@ const createMessage = async (req, res) => {
 const getMessage = async (req, res) => {
   try{
     const conversationId = req.params.conversationId
+    if(conversationId === undefined){
+      const senderId = req.query.senderId
+      const receiverId = req.query.receiverId
+      const conversation = await Conversations.findOne({$and: [{members: {$in: [senderId]}},{members: {$in: [receiverId]}}]
+      })
+      if(conversation){
+        const convoId = conversation._id
+        const messages = await Messages.find({conversationId: convoId})
+        const messagesUserData = Promise.all(messages.map(async (message)=>{
+        const user = await Users.findById(message.senderId)
+        return {user:{id:user._id,name:user.name,username:user.username},message:message.message,time:message.time}
+        }))
+        return res.status(200).json({messages:await messagesUserData,conversationId:convoId})
+      }
+      else{
+        return res.status(200).json([])
+      }
+    }
     const messages = await Messages.find({conversationId})
     const messagesUserData = Promise.all(messages.map(async (message)=>{
       const user = await Users.findById(message.senderId)

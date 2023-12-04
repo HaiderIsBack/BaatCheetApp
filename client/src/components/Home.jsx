@@ -1,6 +1,8 @@
 import "./Home.css"
 import {useNavigate} from "react-router-dom"
-import {useState,useRef,useEffect,useCallback} from "react"
+import {useState,useRef,useEffect,useCallback, useContext} from "react"
+import {SocketContext} from "../SocketContext"
+import MoonLoader from "react-spinners/MoonLoader";
 import {
   IconHome,
   IconSettings,
@@ -26,6 +28,7 @@ const Home = () => {
 
 const HomeNav = () => {
   const navigate = useNavigate()
+  const {logOut} = useContext(SocketContext)
   const [user,setUser] = useState(JSON.parse(localStorage.getItem("user:details")))
   const [menuOpened,setMenuOpened] = useState(false)
   const menuRef = useRef(null)
@@ -37,11 +40,7 @@ const HomeNav = () => {
     }
     setMenuOpened(!menuOpened)
   },[menuOpened])
-  const handleLogout = () => {
-    localStorage.removeItem("user:details")
-    localStorage.removeItem("user:token")
-    navigate("/login")
-  }
+  
   return (
       <>
       <div ref={menuRef} id="side-menu" className="side-menu">
@@ -68,7 +67,7 @@ const HomeNav = () => {
           <IconShield />
           <h3>Security</h3>
         </div>
-        <div onClick={handleLogout} style={{color:"crimson"}} className="side-menu-item">
+        <div onClick={logOut} style={{color:"crimson"}} className="side-menu-item">
           <IconLogout />
           <h3>Log out</h3>
         </div>
@@ -93,12 +92,26 @@ const HomeNav = () => {
 }
 
 const Chatters = () => {
+  const [loading,setLoading] = useState(false)
+  const {logOut} = useContext(SocketContext)
   const [chatters,setChatters] = useState([])
   useEffect(()=>{
+    const userToken = localStorage.getItem("user:token")
+    setLoading(true)
     const fetchChatters = async () => {
       const userId = JSON.parse(localStorage.getItem("user:details")).userId
-      const res = await fetch(`/api/v1/conversation/${userId}`)
-      res.json().then((data)=>{
+      fetch(`/api/v1/conversation/${userId}`,{
+        headers: {
+          "authorization": userToken
+        }
+      }).then((res)=>{
+        setLoading(false)
+        if(res.status === 440){
+          logOut()
+        }else if(res.ok){
+          return res.json()
+        }
+      }).then((data)=>{
         setChatters(data)
       })
     }
@@ -107,6 +120,15 @@ const Chatters = () => {
   return (
       <>
         <div className="chatters-container">
+        {loading ? <div className="myLoading">
+        <MoonLoader
+        color={"#f85032"}
+        loading={loading}
+        size={40}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+        />
+        </div> : null }
         { chatters.length > 0 ?
           chatters.map((chatter,i)=>{
             return <Chatter key={i} chatperson={chatter} />

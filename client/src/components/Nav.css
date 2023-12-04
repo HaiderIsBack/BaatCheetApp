@@ -10,7 +10,7 @@
   height: 70px;
   width: 100vw;
   z-index: 10;
-  box-shadow: 0 10px 10px rgba(0,0,0,0.6);
+  box-shadow: 0 10px 10px rgba(0,0,0,0.4);
 }
 
 .nav-user-info{
@@ -49,4 +49,14 @@
 .nav-call{
   width: 5%;
   cursor: pointer;
+}
+
+@media (max-width: 400px){
+  .nav-user-info{
+    width:76%;
+  }
+  .nav-video-call,
+  .nav-call{
+    width: 12%;
+  }
 }

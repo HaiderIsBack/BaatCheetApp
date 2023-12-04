@@ -10,7 +10,7 @@ const getUser = async (req, res, next) => {
     if(!username || !password){
       res.status(400).json({msg:"please fill out data first"})
     }else{
-      const user = await Users.findOne({username:username})
+      const user = await Users.findOne({$or:[{username:username},{email: username}]})
       if(!user){
         res.status(400).json({msg:"User with this username does not exist"})
       }else{
@@ -23,11 +23,12 @@ const getUser = async (req, res, next) => {
             username: user.username
           }
           const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "This_Is_JWT_App_Secret_@#£_"
-          jwt.sign(payload,JWT_SECRET_KEY,{expiresIn: 84600 * 2},async (err, token)=>{
+          jwt.sign(payload,JWT_SECRET_KEY,{expiresIn: 86400 * 2},async (err, token)=>{
             await Users.updateOne({_id:user._id},{
               $set: {token:token}
             })
             user.save()
+            const updatedUser = await Users.findOne({_id: user._id})
             return res.status(200).json({
             user:{
               userId:user._id,
@@ -36,7 +37,7 @@ const getUser = async (req, res, next) => {
               email: user.email,
               verified: user.verifiedUser,
               image: user.image
-            },token: user.token
+            },token: updatedUser.token
           })
           })
         }
@@ -81,10 +82,10 @@ const createUser = async (req, res, next) => {
 const getUsers = async (req, res) => {
   try {
     const query = req.params.query
-    const allUsers = await Users.find()
+    const allUsers = await Users.find().limit(10)
     const users = Promise.all(allUsers.map(user => {
       if(user.username.includes(query)){
-        return {id:user._id,name:user.name,username:user.username,verified:user.verified,image:user.image};
+        return {id:user._id,name:user.name,username:user.username,verified:user.verifiedUser,image:user.image};
       }
     }).filter(user => user))
     res.status(200).json(await users)
@@ -95,8 +96,43 @@ const getUsers = async (req, res) => {
 }
 
 //Update User
-const updateUser = (req, res) => {
-  
+const updateUser = async (req, res) => {
+  const {
+    userId,
+    name,
+    username,
+    email
+  } = req.body;
+  if(!userId || !name || !username || !email){
+    return res.status(400).send("Please give data")
+  }else{
+    const user = await Users.find({
+      _id: userId
+    });
+    var userExists = await Users.find({
+      $or: [
+        {email: email},
+        {username: username}
+      ]
+    });
+    userExists = userExists.filter(userExist => { return userExist.username !== user.username || userExist.email !== user.email;
+    });
+    console.log(userExists)
+    if(userExists.length > 0){
+      return res.status(400).json({msg: "User already Exists with this Email or Username"})
+    }
+    await Users.findOneAndUpdate({
+      _id: userId
+    },{
+      name,
+      username,
+      email
+    });
+    const updatedUser = await Users.find({
+      _id: userId
+    })
+    return res.status(200).json(updatedUser)
+  }
 }
 
 module.exports = {

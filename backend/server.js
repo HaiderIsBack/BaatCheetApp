@@ -15,6 +15,9 @@ const app = express()
 //DB
 require("./db/connectdb")
 
+//Custom Middlewares
+const verifyToken = require("./Middleware/VerifyToken")
+
 //Models
 const Messages = require("./models/Message")
 const Users = require("./models/User")
@@ -26,7 +29,9 @@ const messages = require("./routes/Message")
 
 //Middlewares
 app.use(express.static("public"))
-app.use(cors())
+app.use(cors({
+  origin: "http://localhost:5173"
+}))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
@@ -45,6 +50,7 @@ io.on("connection", socket => {
     }
   })
   socket.on("sendMessage",async ({conversationId,senderId,receiverId,message,time})=>{
+    console.log(senderId,receiverId)
     const receiver = activeUsers.find((user)=> user.userId === receiverId)
     const sender = activeUsers.find((user)=> user.userId === senderId)
     const user = await Users.findById(senderId)
@@ -78,14 +84,32 @@ var storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/uploads/')
     },
-    filename: (req, file, cb) => {
+    filename:async (req, file, cb) => {
+        const user = await Users.findOne({
+          _id: req.body.userId
+        });
+        if(user.image !== undefined){
+          const userPrevImage = user.image.split("/uploads/")[1]
+          try{
+            fs.unlinkSync(__dirname+"/public/uploads/"+userPrevImage)
+          }catch(e){
+          console.log(e)
+          }
+        }
         const ext = file.mimetype.split("/")[1]
         cb(null, file.fieldname + '-' + Date.now()+"."+ext)
+    },
+    size: (req, file, cb) => {
+      if(file.size / 1024 > 2 * 1024){
+        cb(null, false)
+      }else{
+        cb(null, file.size)
+      }
     }
 });
 var upload = multer({ storage: storage });
 
-app.post('/api/v1/upload_image', upload.single('image'), async (req, res, next) => {
+app.post('/api/v1/upload_image',verifyToken ,upload.single('image'), async (req, res, next) => {
     await Users.updateOne({_id:req.body.userId},{
       $set: {image: process.env.URL+"/uploads/"+req.file.filename}
     })
@@ -94,7 +118,6 @@ app.post('/api/v1/upload_image', upload.single('image'), async (req, res, next) 
       return res.status(400).json({msg:"File is too large!"})
     }
     res.status(200).json({image:process.env.URL+"/uploads/"+req.file.filename})
-    
 });
 
 // Server Starter

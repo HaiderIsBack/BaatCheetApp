@@ -6,6 +6,7 @@
   background: var(--primary-bg);
   color: var(--primary-text);
   padding: 0 10px;
+  position: relative;
 }
 
 .home-nav-icon{
@@ -165,3 +166,14 @@
   font-size: 20px;
   color: #777;
 }
+
+@media (max-width: 400px){
+  .home-nav-title{
+    width:80%;
+  }
+  .home-nav-search,
+  .home-nav-menu{
+    width:10%;
+  }
+}
+

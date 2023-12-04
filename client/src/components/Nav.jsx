@@ -26,7 +26,7 @@ const Nav = ({ chatter }) => {
             <img src={chatter.image} alt={chatter.name} />
           )}
           <div className="nav-user">
-            <h6>{chatter.name}</h6>
+            <h6>{chatter.verified === "true" ? <img src="/icons/verified.svg" style={{width:"20px",height:"20px",transform:"translateY(25%)",marginRight:"7px"}}/> : null}{chatter.name}</h6>
             <p>@{chatter.username}</p>
           </div>
         </div>
