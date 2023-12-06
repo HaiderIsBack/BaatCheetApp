@@ -109,25 +109,19 @@ const updateUser = async (req, res) => {
     const user = await Users.find({
       _id: userId
     });
-    var userExists = await Users.find({
-      $or: [
-        {email: email},
-        {username: username}
-      ]
-    });
-    userExists = userExists.filter(userExist => { return userExist.username !== user.username || userExist.email !== user.email;
-    });
-    console.log(userExists)
-    if(userExists.length > 0){
-      return res.status(400).json({msg: "User already Exists with this Email or Username"})
+    try{
+      await Users.findOneAndUpdate({
+        _id: userId
+      },{
+        name,
+        username,
+        email
+      });
+    }catch(e){
+      res.status(406).json({msg:
+        "There is problem with this username or email"
+      })
     }
-    await Users.findOneAndUpdate({
-      _id: userId
-    },{
-      name,
-      username,
-      email
-    });
     const updatedUser = await Users.find({
       _id: userId
     })

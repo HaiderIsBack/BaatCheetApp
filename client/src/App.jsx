@@ -1,5 +1,5 @@
 import "./App.css";
-import { IconSend, IconMicrophone,IconCheck , IconChecks } from "@tabler/icons-react";
+import { IconSend, IconMicrophone,IconCheck , IconChecks,IconLock } from "@tabler/icons-react";
 import BarLoader from "react-spinners/BarLoader";
 
 import { useState, useEffect, useRef, useContext } from "react";
@@ -162,7 +162,12 @@ const Messages = (props) => {
         data-testid="loader"
         />
         </div> : null }
-        {props.msgs.map((msg, i) => {
+        {props.msgs.length > 0 ? (
+          <div className="encryption-msg">
+            <p><IconLock /> Your conversation is End-to-End Encrypted</p>
+          </div>
+        ) : null}
+        {props.msgs.length > 0 ? props.msgs.map((msg, i) => {
           if (msg.user.id === user.userId) {
             return (
               <>
@@ -188,7 +193,9 @@ const Messages = (props) => {
               </>
             );
           }
-        })}
+        }) : <div className="no-messages">
+          <h3>Say Hi!</h3>
+        </div>}
       </div>
     </>
   );

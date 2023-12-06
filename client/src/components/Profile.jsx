@@ -84,7 +84,12 @@ const Profile = () => {
       if(!res.ok){
         if(res.status === 400){
           const err = await res
-          errorRef.current.innerText = err.msg
+          errorRef.current.value = err.msg
+          setErrorOccured(true);
+        }
+        if(res.status === 406){
+          const err = await res
+          errorRef.current.value = err.msg
           setErrorOccured(true);
         }
       }else{
@@ -92,7 +97,18 @@ const Profile = () => {
       }
     })
     .then((data)=>{
-      
+      const userDetails = JSON.parse(localStorage.getItem("user:details"));
+      userDetails.name = data.name
+      userDetails.username = data.username
+      userDetails.email = data.email
+      localStorage.setItem("user:details",JSON.stringify(userDetails))
+      setIsChanged(false)
+      setErrorOccured(false)
+      setOriginalData({
+        name: data.name,
+        username: data.username,
+        email: data.email
+      })
     })
   }
 
@@ -160,7 +176,7 @@ const Profile = () => {
       </div>
       {errorOccured ? <div className="profile-error-prompt">
           <IconAlertTriangleFilled />
-          <h4 ref={errorRef}></h4>
+          <div ref={errorRef}></div>
       </div> : null}
       {isChanged ? <div style={{height:"100px", background:"var(--primary-bg)"}}></div> : null}
     </>

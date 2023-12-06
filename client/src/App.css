@@ -138,3 +138,19 @@
 .msg-info2{
   justify-content: start;
 }
+
+.encryption-msg{
+  display: flex;
+  justify-content: center;
+  color:#e73829;
+  margin:20px 0;
+  border-radius:10px;
+  text-align: center;
+  font-size: small;
+}
+
+.encryption-msg p{
+  width:280px;
+  display: inline-block;
+  margin:auto 0;
+}

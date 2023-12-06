@@ -16,7 +16,7 @@ const Login = () => {
   const passcodeRef = useRef(null)
   
   const handleUsername = (e) => {
-    setUName(e.target.value)
+    setUName(e.target.value.toLowerCase())
     unameRef.current.style.borderColor = "#e73827"
     if(errType === "uname"){
       errorRef.current.innerText = ""
