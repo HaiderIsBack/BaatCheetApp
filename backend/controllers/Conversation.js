@@ -1,5 +1,6 @@
 const Users = require("../models/User")
 const Conversations = require("../models/Conversation")
+const Messages = require("../models/Message")
 
 
 const createConversation = async (req, res) => {
@@ -42,15 +43,19 @@ const getConversation = async (req, res) => {
 const deleteConversation = async (req, res) => {
   /* 654fdc70c773e569162d625f */
   /* 65508015877a66c5634b6755 */
-  const conversationId = req.params.convoId;
-  await Messages.deleteMany({
+  try{
+    const conversationId = req.params.convoId;
+    await Messages.deleteMany({
     conversationId: conversationId
-  });
-  const response = await Conversations.deleteOne({
+    });
+    const response = await Conversations.deleteOne({
     _id: conversationId
-  });
-  console.log(response)
-  res.status(200).send("Success")
+    });
+    return res.status(200).json(response);
+  }catch(e){
+    console.log(e)
+    res.status(500).send("Error Occured!")
+  }
 }
 
 module.exports = {

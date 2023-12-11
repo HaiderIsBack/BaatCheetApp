@@ -44,7 +44,6 @@ const HomeNav = () => {
   
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-    
   }
   
   const handleMenu = useCallback(() => {
@@ -105,7 +104,7 @@ const HomeNav = () => {
           </div>
         </div>
         <div className="home-nav-searchbox" ref={searchBoxRef}>
-          <input onChange={handleSearch} value={searchQuery} type="text" placeholder="Search Here"/>
+          <input onChange={handleSearch} value={searchQuery} type="text" placeholder="Search Conversation"/>
         </div>
       </>
     )
@@ -115,6 +114,19 @@ const Chatters = () => {
   const [loading,setLoading] = useState(false)
   const {logOut} = useContext(SocketContext)
   const [chatters,setChatters] = useState([])
+  
+  const removeChatter = (convoId) => {
+    setChatters(prev => prev.filter(member => member.conversationId !== convoId));
+  }
+  
+  /*useEffect(()=>{
+    if(queriedChatters.length > 0){
+      setChatters(queriedChatters)
+    }else{
+      fetchChatters()
+    }
+  },[queriedChatters])*/
+  
   useEffect(()=>{
     const userToken = localStorage.getItem("user:token")
     setLoading(true)
@@ -151,7 +163,7 @@ const Chatters = () => {
         </div> : null }
         { chatters.length > 0 ?
           chatters.map((chatter,i)=>{
-            return <Chatter key={chatter.user.id} chatperson={chatter} />
+            return <Chatter removeChatter={removeChatter} key={chatter.user.id} chatperson={chatter} />
           })
           : 
           <div className="no-conversation">
@@ -164,8 +176,9 @@ const Chatters = () => {
     )
 }
 
-const Chatter = ({chatperson, key}) => {
-  const [showOpt,setShowOpt] = useState(false)
+const Chatter = ({chatperson, key, removeChatter}) => {
+  const {logOut} = useContext(SocketContext);
+  const [showOpt,setShowOpt] = useState(false);
   const imgBoxRef = useRef(null)
   const navigate = useNavigate()
   const openChat = () => {
@@ -180,20 +193,20 @@ const Chatter = ({chatperson, key}) => {
   const deleteConversation = () => {
     const userToken = localStorage.getItem("user:token")
     fetch(`/api/v1/conversation/${chatperson.conversationId}`,{
+      method: "DELETE",
       headers: {
         authorization: userToken
       }
     })
     .then((res)=>{
       if(!res.ok){
-        
+        if(res.status === 440){
+          logOut();
+        }
       }else{
-        return res.json()
+        removeChatter(chatperson.conversationId)
       }
-    })
-    .then((data)=>{
-      console.log(data)
-    })
+    });
   }
   useEffect(()=>{
     window.addEventListener("click",(e)=>{
@@ -223,7 +236,7 @@ const Chatter = ({chatperson, key}) => {
             {showOpt ? <div className="chatter-options">
               <ul>
                 <li><IconAlertTriangleFilled /> Report</li>
-                <li><IconTrash /> Delete</li>
+                <li onClick={deleteConversation}><IconTrash /> Delete</li>
               </ul>
             </div> : null}
           </div>
