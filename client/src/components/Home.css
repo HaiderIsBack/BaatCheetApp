@@ -60,7 +60,7 @@
   align-items: center;
   padding: 10px 15px;
   border-bottom: 1px solid gray;
-  color:var(--primary-text);
+  color:var(--text);
 }
 
 .chatter-img{
@@ -118,7 +118,7 @@
   border:none;
   outline:none;
   background: transparent;
-  color:var(--primary-text);
+  color:var(--text);
   cursor: pointer;
 }
 
@@ -207,7 +207,7 @@
 
 .no-conversation h4{
   font-size: 20px;
-  color: #777;
+  color: var(--text);
 }
 
 @media (max-width: 400px){
@@ -279,7 +279,7 @@
 }
 
 .no-messages h3{
-  color:var(--secondary-text);
+  color:var(--text);
   background: var(--secondary-bg);
   padding: 7px 7px;
   border-radius: 10px;

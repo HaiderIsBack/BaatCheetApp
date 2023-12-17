@@ -1,10 +1,12 @@
 import "./NewConversation.css"
 import {useState,useEffect,useContext} from "react"
 import {SocketContext} from "../SocketContext"
-import {useNavigate} from "react-router-dom"
+import {useNavigate, useLocation} from "react-router-dom"
 import {IconAt,IconUserCircle,IconPlus} from "@tabler/icons-react"
 
 const NewConversation = () => {
+  const location = useLocation();
+  const isSearch = location.state.isSearch;
   const [query,setQuery] = useState("")
   const handleQuery = (e) => {
     setQuery(e.target.value)
@@ -31,7 +33,7 @@ const NewConversation = () => {
   return (
     <>
       <div className="new-convo-container">
-        <h3 style={{margin:"15px 0"}}>start a conversation</h3>
+        <h3 style={{margin:"15px 0"}}>{isSearch ? "search for conversation" : "start a conversation"}</h3>
         <div className="new-convo-input-wrapper">
           <IconAt className="at-icon"/>
           <input value={query} onChange={handleQuery} type="text" placeholder="username" />

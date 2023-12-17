@@ -5,7 +5,7 @@ import { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { SocketContext } from "../SocketContext";
 
-import { IconUserEdit,IconUser,IconMail,IconAlertTriangleFilled,IconUserCircle, IconArrowLeft } from "@tabler/icons-react";
+import { IconCamera,IconUserEdit,IconUser,IconMail,IconAlertTriangleFilled,IconUserCircle, IconArrowLeft } from "@tabler/icons-react";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -83,15 +83,18 @@ const Profile = () => {
       setIsChanged(false)
       if(!res.ok){
         if(res.status === 400){
-          const err = await res
-          errorRef.current.value = err.msg
+          const err = await res.json();
           setErrorOccured(true);
+          errorRef.current.innerText = err.msg;
+          console.log("Err Msg: ",err)
         }
         if(res.status === 406){
-          const err = await res
-          errorRef.current.value = err.msg
+          const err = await res.json();
           setErrorOccured(true);
+          errorRef.current.innerText = err.msg
+          console.log("Err Msg: ",err)
         }
+        cancelUpdate();
       }else{
         return res.json()
       }
@@ -127,14 +130,21 @@ const Profile = () => {
           className="menu-back-btn"
         />
         {image === undefined ? (
+        <div className="menu-user-img-container">
           <IconUserCircle onClick={changeImage} className="menu-user-img" />
-        ) : (
+          <div className="camera-icon">
+            <IconCamera size={40} />
+          </div>
+        </div>
+        ) : ( <div className="menu-user-img-container">
           <img
             ref={imgRef}
             onClick={changeImage}
             className="menu-user-img"
             src={image}
           />
+          <div className="camera-icon"><IconCamera size={40} /></div>
+        </div>
         )}
           <input ref={inputUserRef} type="text" name="userId" value={loggedInUser.userId} readOnly hidden />
           <input
@@ -174,10 +184,10 @@ const Profile = () => {
 
         
       </div>
-      {errorOccured ? <div className="profile-error-prompt">
+      <div style={{display: errorOccured ? "flex": "none"}} className="profile-error-prompt">
           <IconAlertTriangleFilled />
           <div ref={errorRef}></div>
-      </div> : null}
+      </div>
       {isChanged ? <div style={{height:"100px", background:"var(--primary-bg)"}}></div> : null}
     </>
   );

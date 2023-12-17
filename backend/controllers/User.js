@@ -103,29 +103,45 @@ const updateUser = async (req, res) => {
     username,
     email
   } = req.body;
+  //Checking if the requesting user gives all required data
   if(!userId || !name || !username || !email){
     return res.status(400).send("Please give data")
   }else{
-    const user = await Users.find({
+    //Getting the requesting user
+    const currUser = await Users.findOne({
       _id: userId
     });
-    try{
-      await Users.findOneAndUpdate({
+    //Checking if changings conflict with other users
+    const userMatches = await Users.find({
+      $and: [
+        {$or: [
+          {username: username},
+          {email: email}
+        ]},
+        //Except myself
+        {_id: {
+          $ne: userId
+        }}
+      ]
+    });
+    if(userMatches.length > 0){
+      return res.status(400).json({msg:"Conflicting other users"})
+    }else{
+      //Updating the User
+      const userUpdated = await Users.findOneAndUpdate({
         _id: userId
       },{
-        name,
-        username,
-        email
+        name: name,
+        username: username,
+        email: email
       });
-    }catch(e){
-      res.status(406).json({msg:
-        "There is problem with this username or email"
+      //Returning Updated User
+      return res.status(200).json({
+        name: name,
+        username: username,
+        email: email
       })
     }
-    const updatedUser = await Users.find({
-      _id: userId
-    })
-    return res.status(200).json(updatedUser)
   }
 }
 

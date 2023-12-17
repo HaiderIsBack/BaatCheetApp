@@ -37,13 +37,13 @@
   top: 50%;
   left: 10%;
   transform: translate(-50%,-50%);
-  color:#e73827;
+  color:var(--primary-bg-color);
 }
 
 .new-convo-users-container{
   width:90%;
   background: #fff;
-  color:#e73827;
+  color:var(--primary-bg-color);
   padding: 10px 10px;
   border-radius:30px;
 }

@@ -5,12 +5,12 @@
   align-items: center;
   width: 100vw;
   height:100svh;
-  color: var(--primary-text);
+  color: var(--text);
   position: relative;
 }
 
 .login-container fieldset{
-  border-color:#e73827;
+  border-color:var(--primary-bg-color);
   border-style:solid;
   width:300px;
   margin:10px 0;
@@ -24,13 +24,13 @@
   height:30px;
   border: none;
   outline: none;
-  color:var(--primary-text);
+  color:var(--text);
   font-weight: bold;
   background: transparent;
 }
 
 .login-container legend{
-  color:var(--primary-text);
+  color:var(--text);
   font-weight: bolder;
   margin: 0 10px;
 }

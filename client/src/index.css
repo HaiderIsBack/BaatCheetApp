@@ -2,9 +2,10 @@
 
 
 :root{
-  --bg:#222;
-  /*--primary-bg: linear-gradient(45deg,#396afc,#2948ff);*/
+  --bg:#111;
+  --text: #fff;
   --primary-bg:linear-gradient(45deg,#f85032,#e73827);
+  --primary-bg-color: #e73827;
   --primary-text:#fff;
   --secondary-bg:#555;
   --secondary-text:white;
@@ -23,7 +24,7 @@
 }
 
 body{
-  background: #222;
+  background: var(--bg);
 }
 
 .myLoading{
@@ -33,5 +34,5 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #222;
+  background: var(--bg);
 }

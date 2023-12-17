@@ -8,6 +8,7 @@ import Login from "./components/Login"
 import Signup from "./components/Signup"
 import NewConversation from "./components/NewConversation"
 import Profile from "./components/Profile"
+import Settings from "./components/Settings"
 import './index.css'
 import { ContextProvider } from "./SocketContext"
 
@@ -54,6 +55,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/profile" element={<ProtectedRoute auth={true} >
             <ContextProvider>
               <Profile />
+            </ContextProvider>
+          </ProtectedRoute>
+        } />
+        <Route path="/settings" element={<ProtectedRoute auth={true} >
+            <ContextProvider>
+              <Settings />
             </ContextProvider>
           </ProtectedRoute>
         } />

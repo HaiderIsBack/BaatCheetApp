@@ -41,8 +41,6 @@ const getConversation = async (req, res) => {
 }
 
 const deleteConversation = async (req, res) => {
-  /* 654fdc70c773e569162d625f */
-  /* 65508015877a66c5634b6755 */
   try{
     const conversationId = req.params.convoId;
     await Messages.deleteMany({

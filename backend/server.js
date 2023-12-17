@@ -50,7 +50,6 @@ io.on("connection", socket => {
     }
   })
   socket.on("sendMessage",async ({conversationId,senderId,receiverId,message,time})=>{
-    console.log(senderId,receiverId)
     const receiver = activeUsers.find((user)=> user.userId === receiverId)
     const sender = activeUsers.find((user)=> user.userId === senderId)
     const user = await Users.findById(senderId)

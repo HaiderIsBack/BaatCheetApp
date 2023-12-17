@@ -35,7 +35,7 @@
   background: var(--primary-bg);
   color:var(--primary-text);
   border-radius: 30px;
-  width: 10%;
+  width: 40px;
   height: 40px;
   outline: none;
   border: none;
@@ -112,14 +112,14 @@
 
 .my-msg span{
   font-size: 9px;
-  color: #aaa;
+  color: var(--primary-text);
   float: right;
   margin-top: 5px;
 }
 
 .their-msg span{
   font-size: 9px;
-  color: var(--primary-bg);
+  color: var(--secondary-text);
   float: left;
   margin-top: 5px;
 }

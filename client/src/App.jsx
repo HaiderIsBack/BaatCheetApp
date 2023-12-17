@@ -155,7 +155,7 @@ const Messages = (props) => {
       <div className="container" ref={msgContRef}>
               {props.loading ? <div className="myLoading">
         <BarLoader
-        color={"#f85032"}
+        color={"var(--primary-bg-color)"}
         loading={props.loading}
         size={40}
         aria-label="Loading Spinner"

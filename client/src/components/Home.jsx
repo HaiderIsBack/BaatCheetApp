@@ -34,17 +34,7 @@ const HomeNav = () => {
   const {logOut} = useContext(SocketContext)
   const [user,setUser] = useState(JSON.parse(localStorage.getItem("user:details")))
   const [menuOpened,setMenuOpened] = useState(false)
-  const [searchQuery,setSearchQuery] = useState()
   const menuRef = useRef(null);
-  const searchBoxRef = useRef(null)
-  
-  const toggleSearchBox = useCallback(()=>{
-    searchBoxRef.current.classList.toggle("show-searchbox")
-  },[]);
-  
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  }
   
   const handleMenu = useCallback(() => {
     if(menuOpened){
@@ -75,7 +65,7 @@ const HomeNav = () => {
           <IconUserEdit />
           <h3>Profile</h3>
         </div>
-        <div role="button" className="side-menu-item">
+        <div role="button" onClick={()=>navigate("/settings")} className="side-menu-item">
           <IconSettings />
           <h3>Settings</h3>
         </div>
@@ -96,15 +86,12 @@ const HomeNav = () => {
           <div className="home-nav-title">
             <h2>BAAT CHEET APP</h2>
           </div>
-          <div onClick={toggleSearchBox} className="home-nav-search">
+          <div onClick={()=>navigate("/newconversation",{state:{isSearch: true}})} className="home-nav-search">
             <IconSearch />
           </div>
           <div onClick={handleMenu} className="home-nav-menu">
             <IconDotsVertical />
           </div>
-        </div>
-        <div className="home-nav-searchbox" ref={searchBoxRef}>
-          <input onChange={handleSearch} value={searchQuery} type="text" placeholder="Search Conversation"/>
         </div>
       </>
     )
@@ -154,14 +141,14 @@ const Chatters = () => {
         <div className="chatters-container">
         {loading ? <div className="myLoading">
         <MoonLoader
-        color={"#f85032"}
+        color={"var(--primary-bg-color)"}
         loading={loading}
         size={40}
         aria-label="Loading Spinner"
         data-testid="loader"
         />
         </div> : null }
-        { chatters.length > 0 ?
+        { chatters?.length > 0 ?
           chatters.map((chatter,i)=>{
             return <Chatter removeChatter={removeChatter} key={chatter.user.id} chatperson={chatter} />
           })
@@ -250,7 +237,7 @@ const NewChat = () => {
   return (
       <>
         <div className="new-chat-btn">
-          <button onClick={()=> navigate("/newconversation")}>
+          <button onClick={()=> navigate("/newconversation",{state: {isSearch: false}})}>
             <IconMessagePlus />
           </button>
         </div>
