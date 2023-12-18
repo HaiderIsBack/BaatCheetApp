@@ -62,6 +62,7 @@ io.on("connection", socket => {
         user: {id: user._id,name: user.name,username: user.username}
       })
     if(receiver){
+      await Messages.updateMany({$and:[{conversationId},{senderId:receiver.userId},{status:"unread"}]},{status: "read"});
       io.to(receiver.socketId).emit("getMessage", newMessage)
     }
     io.to(sender.socketId).emit("getMessage",newMessage)

@@ -106,14 +106,6 @@ const Chatters = () => {
     setChatters(prev => prev.filter(member => member.conversationId !== convoId));
   }
   
-  /*useEffect(()=>{
-    if(queriedChatters.length > 0){
-      setChatters(queriedChatters)
-    }else{
-      fetchChatters()
-    }
-  },[queriedChatters])*/
-  
   useEffect(()=>{
     const userToken = localStorage.getItem("user:token")
     setLoading(true)
@@ -217,6 +209,9 @@ const Chatter = ({chatperson, key, removeChatter}) => {
             <p>@{chatperson.user.username}</p>
           </div>
           <div className="chatter-menu">
+            {chatperson.unReadMsgs > 0 ? <sup>
+              {chatperson.unReadMsgs}
+            </sup> : null}
             <button onClick={showOptions}>
               <IconDotsVertical id={chatperson.user.id} />
             </button>

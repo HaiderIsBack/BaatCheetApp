@@ -86,7 +86,7 @@ const App = () => {
         })
         return;
       }
-      fetch(`/api/v1/message/${chatter.conversationId}`,{
+      fetch(`/api/v1/message?conversationId=${chatter.conversationId}&receiverId=${chatter.user.id}`,{
         headers: {
           authorization: userToken
         }
@@ -118,6 +118,7 @@ const App = () => {
       senderId: loggedInUser.userId,
       receiverId: data.receiverId,
       message: data.msg,
+      status: data.status,
       time: data.time,
     };
     socket.emit("sendMessage", payload);

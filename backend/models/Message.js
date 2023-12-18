@@ -14,6 +14,9 @@ const messageSchema = mongoose.Schema({
   time:{
     type:Number
   },
+  status: {
+    type:String
+  },
   user: {
     type: Object
   }

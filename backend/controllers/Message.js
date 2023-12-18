@@ -4,7 +4,7 @@ const Users = require("../models/User")
 
 const createMessage = async (req, res) => {
   try{
-    const {conversationId, senderId,receiverId, message, time} = req.body
+    const {conversationId, senderId,receiverId, message,status, time} = req.body
     if(conversationId == "new" && receiverId){
       const newConversation = new Conversations({ members:[senderId,receiverId]})
       await newConversation.save()
@@ -12,6 +12,7 @@ const createMessage = async (req, res) => {
       conversationId:newConversation._id,
       senderId,
       message,
+      status,
       time
     });
     await newMessage.save()
@@ -21,6 +22,7 @@ const createMessage = async (req, res) => {
       conversationId,
       senderId,
       message,
+      status,
       time
     });
     await newMessage.save()
@@ -33,7 +35,7 @@ const createMessage = async (req, res) => {
 
 const getMessage = async (req, res) => {
   try{
-    const conversationId = req.params.conversationId
+    const conversationId = req.query.conversationId;
     if(conversationId === undefined){
       const senderId = req.query.senderId
       const receiverId = req.query.receiverId
@@ -52,6 +54,8 @@ const getMessage = async (req, res) => {
         return res.status(200).json([])
       }
     }
+    const receiverId = req.query.receiverId;
+    await Messages.updateMany({$and:[{conversationId},{senderId:receiverId},{status:"unread"}]},{status: "read"})
     const messages = await Messages.find({conversationId})
     const messagesUserData = Promise.all(messages.map(async (message)=>{
       const user = await Users.findById(message.senderId)
