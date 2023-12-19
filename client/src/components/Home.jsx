@@ -156,7 +156,7 @@ const Chatters = () => {
 }
 
 const Chatter = ({chatperson, key, removeChatter}) => {
-  const {logOut} = useContext(SocketContext);
+  const {logOut, socket} = useContext(SocketContext);
   const [showOpt,setShowOpt] = useState(false);
   const imgBoxRef = useRef(null)
   const navigate = useNavigate()
@@ -197,6 +197,19 @@ const Chatter = ({chatperson, key, removeChatter}) => {
       }
     });
   },[])
+  
+  useEffect(()=>{
+    socket.on("receivedMessage", unReadMsgs => {
+      console.log("A msg was ",unReadMsgs)
+      if(unReadMsgs > 0){
+        chatperson.unReadMsgs = unReadMsgs;
+      }
+    });
+    
+    return () => {
+      socket.off("receivedMessage");
+    }
+  },[socket]);
   return (
       <>
         <div className="chatter-container">

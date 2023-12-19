@@ -4,7 +4,7 @@ const path = require("path")
 const fs = require("fs")
 const io = require("socket.io")(8000, {
   cors: {
-    origin: "http://localhost:5173"
+    origin: "*"
   }
 })
 require("dotenv").config()
@@ -30,7 +30,7 @@ const messages = require("./routes/Message")
 //Middlewares
 app.use(express.static("public"))
 app.use(cors({
-  origin: "http://localhost:5173"
+  origin: "*"
 }))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -48,6 +48,7 @@ io.on("connection", socket => {
       })
       io.emit("getUsers", activeUsers)
     }
+    console.log(userId)
   })
   socket.on("sendMessage",async ({conversationId,senderId,receiverId,message,time})=>{
     const receiver = activeUsers.find((user)=> user.userId === receiverId)
@@ -58,12 +59,16 @@ io.on("connection", socket => {
         senderId,
         receiverId,
         message,
+        status: "unread",
         time,
         user: {id: user._id,name: user.name,username: user.username}
       })
     if(receiver){
+      const unReadMsgs = await Messages.find({$and:[{conversationId:conversationId},{senderId:receiver.userId},{status:"unread"}]}).count();
       await Messages.updateMany({$and:[{conversationId},{senderId:receiver.userId},{status:"unread"}]},{status: "read"});
       io.to(receiver.socketId).emit("getMessage", newMessage)
+      io.to(receiver.socketId).emit("recievedMessage",unReadMsgs)
+      console.log("unreadmsg sent")
     }
     io.to(sender.socketId).emit("getMessage",newMessage)
   })

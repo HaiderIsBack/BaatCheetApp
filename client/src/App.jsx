@@ -119,7 +119,7 @@ const App = () => {
       receiverId: data.receiverId,
       message: data.msg,
       status: data.status,
-      time: data.time,
+      time: timeAdjust(data.time),
     };
     socket.emit("sendMessage", payload);
     await fetch("/api/v1/message", {
@@ -176,7 +176,7 @@ const Messages = (props) => {
                 <MyMessage
                   key={i}
                   msg={msg.message}
-                  time={timeAdjust(msg.time)}
+                  time={msg.time}
                 />
                 <div ref={msgContRef}></div>
               </>
@@ -188,7 +188,7 @@ const Messages = (props) => {
                 <TheirMessage
                   key={i}
                   msg={msg.message}
-                  time={timeAdjust(msg.time)}
+                  time={msg.time}
                 />
                 <div ref={msgContRef}></div>
               </>

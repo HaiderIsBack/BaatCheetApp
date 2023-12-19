@@ -130,16 +130,15 @@ const Profile = () => {
           className="menu-back-btn"
         />
         {image === undefined ? (
-        <div className="menu-user-img-container">
-          <IconUserCircle onClick={changeImage} className="menu-user-img" />
+        <div className="menu-user-img-container" onClick={changeImage}>
+          <IconUserCircle className="menu-user-img" />
           <div className="camera-icon">
             <IconCamera size={40} />
           </div>
         </div>
-        ) : ( <div className="menu-user-img-container">
+        ) : ( <div className="menu-user-img-container" onClick={changeImage}>
           <img
             ref={imgRef}
-            onClick={changeImage}
             className="menu-user-img"
             src={image}
           />

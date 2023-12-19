@@ -12,7 +12,7 @@ const messageSchema = mongoose.Schema({
     type:String
   },
   time:{
-    type:Number
+    type:String
   },
   status: {
     type:String
