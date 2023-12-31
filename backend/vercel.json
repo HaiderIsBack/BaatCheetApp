@@ -1,0 +1,6 @@
+{
+  "routes": [
+    "source": "/(.*)",
+    "dest": "./server.js"
+  ]
+}
