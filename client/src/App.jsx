@@ -63,7 +63,7 @@ const App = () => {
     const fetchMessages = async () => {
       setLoading(true);
       if(chatter.conversationId === undefined){
-        fetch(`/api/v1/message?senderId=${user.userId}&receiverId=${chatter.user.id}`,{
+        fetch(`https://baat-cheet-app-backend.vercel.app/api/v1/message?senderId=${user.userId}&receiverId=${chatter.user.id}`,{
           headers: {
             authorization: userToken
           }
@@ -86,7 +86,7 @@ const App = () => {
         })
         return;
       }
-      fetch(`/api/v1/message?conversationId=${chatter.conversationId}&receiverId=${chatter.user.id}`,{
+      fetch(`https://baat-cheet-app-backend.vercel.app/api/v1/message?conversationId=${chatter.conversationId}&receiverId=${chatter.user.id}`,{
         headers: {
           authorization: userToken
         }
