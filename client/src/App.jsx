@@ -122,7 +122,7 @@ const App = () => {
       time: timeAdjust(data.time),
     };
     socket.emit("sendMessage", payload);
-    await fetch("/api/v1/message", {
+    await fetch("https://baat-cheet-app-backend.vercel.app/api/v1/message", {
       // Adding method type
       method: "POST",
       // Adding body or contents to send
