@@ -37,7 +37,7 @@ const Profile = () => {
         formData.append("userId",inputUserRef.current.value)
         formData.append("image",e.target.files[0])
         
-        fetch("/api/v1/upload_image", {
+        fetch("https://baat-cheet-app-backend.vercel.app/api/v1/upload_image", {
           method: "POST",
           body: formData,
           headers: {
@@ -71,7 +71,7 @@ const Profile = () => {
       username: username,
       email: email
     }
-    fetch("/api/v1/user",{
+    fetch("https://baat-cheet-app-backend.vercel.app/api/v1/user",{
       method: "PUT",
       body: JSON.stringify(userData),
       headers: {
