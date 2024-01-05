@@ -22,8 +22,7 @@ const getUser = async (req, res, next) => {
             userId: user._id,
             username: user.username
           }
-          const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "This_Is_JWT_App_Secret_@#£_"
-          jwt.sign(payload,JWT_SECRET_KEY,{expiresIn: 86400 * 2},async (err, token)=>{
+          jwt.sign(payload,process.env.JWT_SECRET_KEY,{expiresIn: 86400 * 3},async (err, token)=>{
             await Users.updateOne({_id:user._id},{
               $set: {token:token}
             })
