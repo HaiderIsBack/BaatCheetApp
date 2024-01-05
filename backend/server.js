@@ -93,14 +93,7 @@ var storage = multer.diskStorage({
         const user = await Users.findOne({
           _id: req.body.userId
         });
-        if(user.image !== undefined){
-          const userPrevImage = user.image.split("/uploads/")[1]
-          try{
-            fs.unlinkSync(__dirname+"/public/uploads/"+userPrevImage)
-          }catch(e){
-          console.log(e)
-          }
-        }
+        
         const ext = file.mimetype.split("/")[1]
         cb(null, file.fieldname + '-' + Date.now()+"."+ext)
     },
