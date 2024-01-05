@@ -46,7 +46,7 @@ const Profile = () => {
         }).then((res)=>{
           if(res.status === 400){
             alert("File is too Large...! (Must be Less than 2Mb)")
-          }else if(res.status === 200){
+          }else if(res.ok){
             return res.json()
           }
         }).then((data)=>{
