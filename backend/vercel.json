@@ -1,27 +1,15 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "server.js"
-    }
-  ]
-  "functions": [
-    {
-      "src": "server.js",
-      "name": "server",
-      "env": {
-        NODE_ENV: "production"
-      },
-      "options": {
-        "node_opts": [ "--inspect" ] // Optional: Enables debugging with Node.js Inspector
-      }
-    }
-  ]
+    "version": 2,
+    "builds": [
+        {
+            "src": "server.js",
+            "use": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "server.js"
+        }
+    ]
 }
