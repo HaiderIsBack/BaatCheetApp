@@ -3,7 +3,7 @@ import {useNavigate} from "react-router-dom"
 import { io } from "socket.io-client"
 
 const SocketContext = createContext()
-const socket = io("https://baat-cheet-app-backend.vercel.app")
+const socket = io("https://baat-cheet-app-backend.vercel.app:7000")
 
 const ContextProvider = ({ children }) => {
   const navigate = useNavigate()
