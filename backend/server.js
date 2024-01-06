@@ -2,15 +2,17 @@ const express = require("express")
 const cors = require("cors")
 const path = require("path")
 const fs = require("fs")
-const io = require("socket.io")(7000, {
+const https = require("https")
+
+const app = express();
+const server = https.createServer(app);
+
+const io = require("socket.io")(server, {
   cors: {
     origin: "*"
   }
 })
 require("dotenv").config()
-
-//Express App
-const app = express()
 
 //DB
 require("./db/connectdb")
@@ -122,5 +124,6 @@ app.post('/api/v1/upload_image',verifyToken ,upload.single('image'), async (req,
 const port = process.env.PORT || 8080
 app.listen(port,()=>{
   console.log(`Server Started on Port : ${port}`)
-})
+});
+server.listen(3000,console.log("Socket Server Started on 3000"));
 module.exports = app
