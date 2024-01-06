@@ -4,7 +4,7 @@ const path = require("path")
 const fs = require("fs")
 const io = require("socket.io")(7000, {
   cors: {
-    origin: "*"
+    origin: "https://baat-cheet-app-frontend.vercel.app"
   }
 })
 require("dotenv").config()
@@ -30,7 +30,7 @@ const messages = require("./routes/Message")
 //Middlewares
 app.use(express.static("public"))
 app.use(cors({
-  origin: "*"
+  origin: "https://baat-cheet-app-frontend.vercel.app"
 }))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
