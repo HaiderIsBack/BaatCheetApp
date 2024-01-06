@@ -2,7 +2,7 @@ const express = require("express")
 const cors = require("cors")
 const path = require("path")
 const fs = require("fs")
-const io = require("socket.io")(8000, {
+const io = require("socket.io")(7000, {
   cors: {
     origin: "*"
   }
