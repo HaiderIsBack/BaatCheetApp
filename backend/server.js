@@ -89,7 +89,7 @@ app.use("/api/v1",messages)
 const multer = require("multer")
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/uploads/')
+        cb(null, __dirname+'/public/uploads/')
     },
     filename:async (req, file, cb) => {
         const user = await Users.findOne({
@@ -111,13 +111,13 @@ var upload = multer({ storage: storage });
 
 app.post('/api/v1/upload_image',verifyToken ,upload.single('image'), async (req, res, next) => {
     await Users.updateOne({_id:req.body.userId},{
-      $set: {image: process.env.URL+"/uploads/"+req.file.filename}
+      $set: {image: process.env.URL+__dirname+"/uploads/"+req.file.filename}
     })
     // KBs
     if(req.file.size / 1024 > 2 * 1024){
       return res.status(400).json({msg:"File is too large!"})
     }
-    res.status(200).json({image:process.env.URL+"/uploads/"+req.file.filename})
+    res.status(200).json({image:process.env.URL+__dirname+"/uploads/"+req.file.filename})
 });
 
 // Server Starter
