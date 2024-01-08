@@ -9,7 +9,7 @@ const server = http.createServer(app);
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: "*"
+    origin: process.env.CLIENT_URL || "https://baat-cheet-app-frontend.vercel.app/"
   }
 })
 require("dotenv").config()
@@ -32,7 +32,7 @@ const messages = require("./routes/Message")
 //Middlewares
 app.use(express.static("public"))
 app.use(cors({
-  origin: "https://baat-cheet-app-frontend.vercel.app"
+  origin: process.env.CLIENT_URL || "https://baat-cheet-app-frontend.vercel.app/"
 }))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -50,7 +50,6 @@ io.on("connection", socket => {
       })
       io.emit("getUsers", activeUsers)
     }
-    console.log(userId)
   })
   socket.on("sendMessage",async ({conversationId,senderId,receiverId,message,time})=>{
     const receiver = activeUsers.find((user)=> user.userId === receiverId)
@@ -70,7 +69,6 @@ io.on("connection", socket => {
       await Messages.updateMany({$and:[{conversationId},{senderId:receiver.userId},{status:"unread"}]},{status: "read"});
       io.to(receiver.socketId).emit("getMessage", newMessage)
       io.to(receiver.socketId).emit("recievedMessage",unReadMsgs)
-      console.log("unreadmsg sent")
     }
     io.to(sender.socketId).emit("getMessage",newMessage)
   })
@@ -122,8 +120,7 @@ app.post('/api/v1/upload_image',verifyToken ,upload.single('image'), async (req,
 
 // Server Starter
 const port = process.env.PORT || 8080
-app.listen(port,()=>{
+/* app.listen(port,()=>{
   console.log(`Server Started on Port : ${port}`)
-});
-server.listen(3000,console.log("Socket Server Started on 3000"));
-module.exports = app
+}); */
+server.listen(port,console.log("Socket Server Started on 3000"));
