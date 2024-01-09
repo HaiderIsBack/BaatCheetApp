@@ -9,7 +9,7 @@ const server = http.createServer(app);
 
 const io = require("socket.io")(server, {
   cors: {
-    origin: process.env.CLIENT_URL || "https://baat-cheet-app-frontend.vercel.app/"
+    origin: process.env.CLIENT_URL || "*"
   }
 })
 require("dotenv").config()
@@ -32,7 +32,7 @@ const messages = require("./routes/Message")
 //Middlewares
 app.use(express.static("public"))
 app.use(cors({
-  origin: process.env.CLIENT_URL || "https://baat-cheet-app-frontend.vercel.app/"
+  origin: process.env.CLIENT_URL || "*"
 }))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
