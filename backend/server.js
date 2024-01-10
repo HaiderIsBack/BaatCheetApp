@@ -4,6 +4,9 @@ const path = require("path")
 const fs = require("fs")
 const http = require("http")
 
+// Server Starter
+const port = process.env.PORT || 8080
+
 const app = express();
 app.use(cors({
   origin: process.env.CLIENT_URL || "*"
@@ -12,7 +15,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
-const server = http.createServer(app);
+const server = app.listen(port);
 
 const io = require("socket.io")(server, {
   cors: {
@@ -122,9 +125,8 @@ app.post('/api/v1/upload_image',verifyToken ,upload.single('image'), async (req,
     res.status(200).json({image:process.env.URL+__dirname+"/uploads/"+req.file.filename})
 });
 
-// Server Starter
-const port = process.env.PORT || 8080
+
 /* app.listen(port,()=>{
   console.log(`Server Started on Port : ${port}`)
 }); */
-server.listen(port,console.log("Socket Server Started on 3000"));
+// server.listen(port,console.log("Socket Server Started on 3000"));
