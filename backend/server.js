@@ -5,6 +5,9 @@ const fs = require("fs")
 const http = require("http")
 
 const app = express();
+app.use(cors({
+  origin: process.env.CLIENT_URL || "*"
+}))
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   next();
@@ -35,9 +38,6 @@ const messages = require("./routes/Message")
 
 //Middlewares
 app.use(express.static("public"))
-app.use(cors({
-  origin: process.env.CLIENT_URL || "*"
-}))
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
