@@ -5,12 +5,12 @@
             "src": "server.js",
             "use": "@vercel/node"
         }
-    ],"build": {
-    "publish": [
-      "public"
-    ]
-    },
+    ],
     "routes": [
+        {
+            "src": "/uploads/(.*)",
+            "dest": "./public/uploads/(.*)"
+        },
         {
             "src": "/(.*)",
             "dest": "./server.js"
