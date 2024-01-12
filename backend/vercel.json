@@ -8,9 +8,6 @@
     ],"build": {
     "publish": [
       "public"
-    ],
-    "ignore": [
-      "public/uploads/*"
     ]
     },
     "routes": [
