@@ -9,7 +9,7 @@
     "routes": [
         {
             "src": "/uploads/(.*)",
-            "dest": "./uploads/(.*)"
+            "dest": "../../uploads/(.*)"
         },
         {
             "src": "/(.*)",
