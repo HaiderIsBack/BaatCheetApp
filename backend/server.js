@@ -17,11 +17,10 @@ app.use(function(req, res, next) {
 
 const server = http.createServer(app);
 
-const io = require("socket.io")(server, {
-  cors: {
-    origin: process.env.CLIENT_URL || "*"
-  }
-})
+const io = require("socket.io")(server)
+// cors: {
+//   origin: process.env.CLIENT_URL || "*"
+// }
 require("dotenv").config()
 
 //DB
