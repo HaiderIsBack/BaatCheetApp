@@ -7,9 +7,9 @@ const http = require("http")
 const port = process.env.PORT || 8080
 
 const app = express();
-app.use(cors({
-  origin: process.env.CLIENT_URL || "*"
-}))
+
+app.use(cors())
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   next();
