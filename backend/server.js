@@ -8,9 +8,16 @@ const port = process.env.PORT || 8080
 
 const app = express();
 const server = http.createServer(app);
-const io = require("socket.io")(server)
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET","POST"]
+  }
+})
 
-app.use(cors())
+app.use(cors({
+  origin: "http://localhost:5173"
+}))
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -123,5 +130,5 @@ app.post('/api/v1/upload_image',verifyToken ,upload.single('image'), async (req,
 });
 
 
-app.listen(port, ()=> console.log(`Server Started on Port : ${port}`));
+server.listen(port, ()=> console.log(`Server Started on Port : ${port}`));
 // server.listen(port,console.log("Socket Server Started on 3000"));
