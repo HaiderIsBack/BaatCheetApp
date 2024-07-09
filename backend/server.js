@@ -1,7 +1,6 @@
 const express = require("express")
 const cors = require("cors")
 const path = require("path")
-const fs = require("fs")
 const http = require("http")
 
 // Server Starter
@@ -15,7 +14,8 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
-const server = app.listen(port);
+
+const server = http.createServer(app);
 
 const io = require("socket.io")(server, {
   cors: {
@@ -126,7 +126,5 @@ app.post('/api/v1/upload_image',verifyToken ,upload.single('image'), async (req,
 });
 
 
-/* app.listen(port,()=>{
-  console.log(`Server Started on Port : ${port}`)
-}); */
+app.listen(port, ()=> console.log(`Server Started on Port : ${port}`));
 // server.listen(port,console.log("Socket Server Started on 3000"));

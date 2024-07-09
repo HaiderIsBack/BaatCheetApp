@@ -9,8 +9,13 @@ const verifyToken = async (req, res, next) => {
     return res.status(440).send("Invalid Token Passed!")
   }else{
     try{
-      jwt.verify(userToken, process.env.JWT_SECRET_KEY)
-      next()
+      jwt.verify(userToken, process.env.JWT_SECRET_KEY, (err, user)=>{
+        if(err){
+          res.status(440).send("Token Expired")
+        }
+        req.user = user
+        next()
+      })
     }catch(e){
       return res.status(440).send("Token  Expired")
     }

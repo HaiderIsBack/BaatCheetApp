@@ -6,7 +6,6 @@ import MoonLoader from "react-spinners/MoonLoader";
 import {
   IconHome,
   IconSettings,
-  IconX,
   IconSquareRoundedX,
   IconDotsVertical,
   IconUserCircle,
