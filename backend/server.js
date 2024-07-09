@@ -18,11 +18,6 @@ const io = require("socket.io")(server, {
 app.use(cors({
   origin: "http://localhost:5173"
 }))
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
 // cors: {
 //   origin: process.env.CLIENT_URL || "*"
 // }
