@@ -7,6 +7,8 @@ const http = require("http")
 const port = process.env.PORT || 8080
 
 const app = express();
+const server = http.createServer(app);
+const io = require("socket.io")(server)
 
 app.use(cors())
 
@@ -14,10 +16,6 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   next();
 });
-
-const server = http.createServer(app);
-
-const io = require("socket.io")(server)
 // cors: {
 //   origin: process.env.CLIENT_URL || "*"
 // }
