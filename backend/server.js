@@ -10,13 +10,13 @@ const app = express();
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
   cors: {
-    origin: ["http://localhost:5173","https://baat-cheet-app-frontend.vercel.app"],
+    origin: "https://baat-cheet-app-frontend.vercel.app",
     methods: ["GET","POST"]
   }
 })
 
 app.use(cors({
-  origin: ["http://localhost:5173","https://baat-cheet-app-frontend.vercel.app"]
+  origin: "https://baat-cheet-app-frontend.vercel.app"
 }))
 // cors: {
 //   origin: process.env.CLIENT_URL || "*"
