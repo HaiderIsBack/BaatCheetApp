@@ -15,7 +15,7 @@ const NewConversation = () => {
   useEffect(()=>{
     const fetchData = async () => {
       const userToken = localStorage.getItem("user:token")
-      const res = await fetch(`https://baat-cheet-app-backend.vercel.app/api/v1/users/${query.trim().toLowerCase()}`,{
+      const res = await fetch(`/api/v1/users/${query.trim().toLowerCase()}`,{
         headers: {
           authorization: userToken
         }

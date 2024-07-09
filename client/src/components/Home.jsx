@@ -110,7 +110,7 @@ const Chatters = () => {
     setLoading(true)
     const fetchChatters = async () => {
       const userId = JSON.parse(localStorage.getItem("user:details")).userId
-      fetch(`https://baat-cheet-app-backend.vercel.app/api/v1/conversation/${userId}`,{
+      fetch(`/api/v1/conversation/${userId}`,{
         headers: {
           "authorization": userToken
         }
@@ -170,7 +170,7 @@ const Chatter = ({chatperson, key, removeChatter}) => {
   }
   const deleteConversation = () => {
     const userToken = localStorage.getItem("user:token")
-    fetch(`https://baat-cheet-app-backend.vercel.app/api/v1/conversation/${chatperson.conversationId}`,{
+    fetch(`/api/v1/conversation/${chatperson.conversationId}`,{
       method: "DELETE",
       headers: {
         authorization: userToken

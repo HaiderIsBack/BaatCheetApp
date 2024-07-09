@@ -129,7 +129,7 @@ const Signup = () => {
       password: passcode
     }
     
-    const res = await fetch("https://baat-cheet-app-backend.vercel.app/api/v1/signup",{
+    const res = await fetch("/api/v1/signup",{
     // Adding method type
     method: "POST",
     // Adding body or contents to send
